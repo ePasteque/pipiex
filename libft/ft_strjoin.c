@@ -6,7 +6,7 @@
 /*   By: lbattest <lbattest@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/09 09:46:40 by lbattest          #+#    #+#             */
-/*   Updated: 2021/12/20 16:45:06 by lbattest         ###   ########.fr       */
+/*   Updated: 2022/01/13 18:47:08 by lbattest         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,11 +22,12 @@ char	*ft_strjoin(char const *s1, char const *s2)
 	j = 0;
 	if (!s1 || !s2)
 		return (0);
-	str = malloc(sizeof(char) * (ft_strlen(s1) + ft_strlen(s2) + 1));
+	str = malloc(sizeof(char) * (ft_strlen(s1) + ft_strlen(s2) + 2));
 	if (!str)
 		return (0);
 	while (s1[i])
 		str[j++] = s1[i++];
+	str[j++] = '/';
 	i = 0;
 	while (s2[i])
 		str[j++] = s2[i++];
