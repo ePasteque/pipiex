@@ -6,12 +6,16 @@
 /*   By: lbattest <lbattest@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/05 11:27:21 by lbattest          #+#    #+#             */
-/*   Updated: 2021/11/15 12:53:35 by lbattest         ###   ########.fr       */
+/*   Updated: 2022/01/18 19:01:55 by lbattest         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef LIBFT_H
 # define LIBFT_H
+
+# ifndef BUFFER_SIZE
+#  define BUFFER_SIZE 42
+# endif
 
 # include <stdlib.h>
 # include <unistd.h>
@@ -71,4 +75,11 @@ void	ft_lstdelone(t_list *lst, void (*del)(void *));
 void	ft_lstiter(t_list *lst, void (*f)(void *));
 void	ft_lstclear(t_list **lst, void (*del)(void *));
 t_list	*ft_lstmap(t_list *lst, void *(*f)(void *), void (*del)(void *));
+
+//--	Oser	----//
+char	*get_next_line(int fd);
+char	*ft_strndup(char *s1, char c);
+char	*ft_strjoin_gnl(char *s1, char *s2);
+char	*ft_strchr_gnl(const char *s, int c);
+
 #endif

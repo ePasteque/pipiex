@@ -6,7 +6,7 @@
 /*   By: lbattest <lbattest@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/13 16:24:15 by lbattest          #+#    #+#             */
-/*   Updated: 2022/01/13 18:50:08 by lbattest         ###   ########.fr       */
+/*   Updated: 2022/01/18 19:33:15 by lbattest         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,9 +32,41 @@ void	exec(t_basic basic)
 	}
 }
 
+void	here_doc_process(t_pipe p, t_basic basic)
+{
+	int		p_tmp[2];
+	char	*tmp;
+	char	*final;
+
+	pipe(p_tmp);
+	final = NULL;
+	tmp = get_next_line(0); // je pense que c'est un probleme avec l'implementation de gnl dans libft
+	while (tmp && ft_strncmp(basic.argv[2], tmp, ft_strlen(basic.argv[2])) != 0)
+	{
+		ft_strlcat(final, tmp, ft_strlen(final) + ft_strlen(tmp) + 1);
+		tmp = get_next_line(0);
+	}
+	ft_strlcat(final, tmp, ft_strlen(final) + ft_strlen(tmp) + 1);
+	write(p_tmp[0], final, ft_strlen(final));
+	basic.i++;
+	if (dup2(p_tmp[0], 0) < 0)
+		error(0);
+	if (close(p_tmp[0]))
+		error(0);
+	if (close(p_tmp[1]))
+		error(0);
+	if (dup2(p.out, 1) < 0)
+		error(0);
+	if (close(p.in) < 0)
+		error(0);
+	if (close(p.out) < 0)
+		error(0);
+	exec(basic);
+}
+
 void	in_process(t_pipe p, t_basic basic, char *infile)
 {
-	int	fd;
+	int		fd;
 
 	fd = open(infile, O_RDONLY);
 	if (fd == -1)

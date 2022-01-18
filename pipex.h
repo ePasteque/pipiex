@@ -6,7 +6,7 @@
 /*   By: lbattest <lbattest@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/15 10:01:54 by lbattest          #+#    #+#             */
-/*   Updated: 2022/01/13 18:33:17 by lbattest         ###   ########.fr       */
+/*   Updated: 2022/01/18 18:44:09 by lbattest         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,7 @@ typedef struct s_pipe
 typedef struct s_basic
 {
 	int			i;
+	int			here_doc;
 	int			argc;
 	char		**argv;
 	char		**envp;
@@ -41,5 +42,8 @@ void	sub_process(t_pipe pin, t_pipe pout, t_basic basic);
 void	out_process(t_pipe p, t_basic basic, char *outfile);
 char	*get_path(char **envp, char *cmd);
 void	*free_all(char **str);
+void	here_doc_process(t_pipe p, t_basic basic);
+char	*get_next_line(int fd);
+int		ft_strncmp(const char *s1, const char *s2, size_t n);
 
 #endif
