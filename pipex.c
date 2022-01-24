@@ -6,7 +6,7 @@
 /*   By: lbattest <lbattest@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/24 10:47:27 by lbattest          #+#    #+#             */
-/*   Updated: 2022/01/24 12:18:00 by lbattest         ###   ########.fr       */
+/*   Updated: 2022/01/24 12:29:14 by lbattest         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ void	error(int i)
 	else if (i == 1)
 		write(2, "pipex: command not found\n", 25);
 	else if (i == 2)
-		write(2, "pipex: not enough arguments\n", 28);
+		write(2, "pipex: not the correct numbers of arguments\n", 44);
 	else if (i == 3)
 		write(2, "pipex: can't create a pipe\n", 27);
 	else if (i == 4)
@@ -65,7 +65,6 @@ int	main(int argc, char **argv, char **envp)
 	pipes = malloc(sizeof(t_pipe) * (nbcmd - 1));
 	while (++basic.i < nbcmd)
 	{
-		printf("%d\n", basic.i);
 		if (basic.i < nbcmd - 1 && pipe(&pipes[basic.i].in) == -1)
 			error(3);
 		loop(pipes, nbcmd, basic);

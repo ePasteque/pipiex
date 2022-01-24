@@ -6,7 +6,7 @@
 /*   By: lbattest <lbattest@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/28 14:01:03 by lbattest          #+#    #+#             */
-/*   Updated: 2022/01/24 12:10:25 by lbattest         ###   ########.fr       */
+/*   Updated: 2022/01/24 13:29:53 by lbattest         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,7 +77,6 @@ int	main(int argc, char **argv, char **envp)
 	pipes = malloc(sizeof(t_pipe) * (nbcmd - 1));
 	while (++basic.i < nbcmd)
 	{
-		printf("%d\n", basic.i);
 		if (basic.i < nbcmd - 1 && pipe(&pipes[basic.i].in) == -1)
 			error(3);
 		loop(pipes, nbcmd, basic);
