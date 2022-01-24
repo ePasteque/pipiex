@@ -6,7 +6,7 @@
 /*   By: lbattest <lbattest@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/05 11:27:21 by lbattest          #+#    #+#             */
-/*   Updated: 2022/01/18 19:01:55 by lbattest         ###   ########.fr       */
+/*   Updated: 2022/01/20 11:13:45 by lbattest         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,10 +76,12 @@ void	ft_lstiter(t_list *lst, void (*f)(void *));
 void	ft_lstclear(t_list **lst, void (*del)(void *));
 t_list	*ft_lstmap(t_list *lst, void *(*f)(void *), void (*del)(void *));
 
-//--	Oser	----//
+//--	GNL		----//
 char	*get_next_line(int fd);
 char	*ft_strndup(char *s1, char c);
 char	*ft_strjoin_gnl(char *s1, char *s2);
 char	*ft_strchr_gnl(const char *s, int c);
+size_t	ft_strlen_gnl(char *str);
+char	*ft_substr_gnl(char *s, unsigned int start, size_t len);
 
 #endif

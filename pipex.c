@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: lbattest <lbattest@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/12/28 14:01:03 by lbattest          #+#    #+#             */
-/*   Updated: 2022/01/13 19:11:12 by lbattest         ###   ########.fr       */
+/*   Created: 2022/01/24 10:47:27 by lbattest          #+#    #+#             */
+/*   Updated: 2022/01/24 12:18:00 by lbattest         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,17 +27,19 @@ void	error(int i)
 	exit(1);
 }
 
-static void	loop(t_pipe *pipes, int nbcmd, int pid, t_basic basic)
+static void	loop(t_pipe *pipes, int nbcmd, t_basic basic)
 {
+	int	pid;
+
 	pid = fork();
+	if (pid == -1)
+		error(0);
 	if (pid == 0)
 	{
-		if (basic.i == 0)
+		if (basic.i == 0 && basic.here_doc == 0)
 			in_process(pipes[basic.i], basic, basic.argv[1]);
 		else if (basic.i == nbcmd - 1)
 			out_process(pipes[basic.i - 1], basic, basic.argv[basic.argc - 1]);
-		else
-			sub_process(pipes[basic.i - 1], pipes[basic.i], basic);
 	}
 	if (basic.i > 0)
 	{
@@ -48,7 +50,6 @@ static void	loop(t_pipe *pipes, int nbcmd, int pid, t_basic basic)
 
 int	main(int argc, char **argv, char **envp)
 {
-	int		pid;
 	int		nbcmd;
 	t_basic	basic;
 	t_pipe	*pipes;
@@ -60,13 +61,14 @@ int	main(int argc, char **argv, char **envp)
 	basic.argc = argc;
 	basic.argv = argv;
 	basic.envp = envp;
-	pid = -1;
+	basic.here_doc = 0;
 	pipes = malloc(sizeof(t_pipe) * (nbcmd - 1));
 	while (++basic.i < nbcmd)
 	{
+		printf("%d\n", basic.i);
 		if (basic.i < nbcmd - 1 && pipe(&pipes[basic.i].in) == -1)
 			error(3);
-		loop(pipes, nbcmd, pid, basic);
+		loop(pipes, nbcmd, basic);
 	}
 	free(pipes);
 	return (0);

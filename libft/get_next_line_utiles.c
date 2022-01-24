@@ -6,11 +6,23 @@
 /*   By: lbattest <lbattest@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/22 12:00:21 by lbattest          #+#    #+#             */
-/*   Updated: 2022/01/18 19:01:35 by lbattest         ###   ########.fr       */
+/*   Updated: 2022/01/20 11:15:42 by lbattest         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
+
+size_t	ft_strlen_gnl(char *str)
+{
+	size_t	i;
+
+	i = 0;
+	if (!str)
+		return (0);
+	while (str[i])
+		i++;
+	return (i);
+}
 
 char	*ft_strjoin_gnl(char *s1, char *s2)
 {
@@ -21,8 +33,8 @@ char	*ft_strjoin_gnl(char *s1, char *s2)
 
 	i = 0;
 	j = -1;
-	len = ft_strlen(s1);
-	str = malloc(sizeof(char) * (len + ft_strlen(s2) + 1));
+	len = ft_strlen_gnl(s1);
+	str = malloc(sizeof(char) * (len + ft_strlen_gnl(s2) + 1));
 	if (!str)
 		return (0);
 	while (++j < len)
@@ -60,7 +72,7 @@ char	*ft_strndup(char *s1, char c)
 
 	if (!s1)
 		return (NULL);
-	len = ft_strlen(s1);
+	len = ft_strlen_gnl(s1);
 	i = 0;
 	while (s1[i] != c)
 		i++;
@@ -77,4 +89,25 @@ char	*ft_strndup(char *s1, char c)
 	}
 	array_ptr[i] = '\0';
 	return (array_ptr);
+}
+
+char	*ft_substr_gnl(char *s, unsigned int start, size_t len)
+{
+	char	*str;
+	size_t	i;
+
+	if (!s)
+		return (NULL);
+	if (start > ft_strlen_gnl(s))
+		len = 0;
+	if (ft_strlen_gnl(s + start) < len)
+		len = ft_strlen_gnl(s + start);
+	str = malloc(sizeof(char) * (len + 1));
+	if (!str)
+		return (0);
+	i = 0;
+	while (len > i && s[start])
+		str[i++] = s[start++];
+	str[i] = '\0';
+	return (str);
 }
