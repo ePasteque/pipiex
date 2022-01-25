@@ -6,7 +6,7 @@
 /*   By: lbattest <lbattest@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/05 11:27:21 by lbattest          #+#    #+#             */
-/*   Updated: 2022/01/20 11:13:45 by lbattest         ###   ########.fr       */
+/*   Updated: 2022/01/25 13:47:30 by lbattest         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,5 +83,8 @@ char	*ft_strjoin_gnl(char *s1, char *s2);
 char	*ft_strchr_gnl(const char *s, int c);
 size_t	ft_strlen_gnl(char *str);
 char	*ft_substr_gnl(char *s, unsigned int start, size_t len);
+
+//--	Other	----//
+char	*ft_strjoin_mod(char const *s1, char const *s2);
 
 #endif

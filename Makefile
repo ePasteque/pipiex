@@ -1,5 +1,7 @@
 NAME = pipex
 
+NAME_BONUS = pipex_bonus
+
 LIBFT =	libft/libft.a
 
 SRCS =	pipex.c \
@@ -9,8 +11,7 @@ SRCS =	pipex.c \
 SRCS_BONUS =	pipex_bonus.c \
 				process_bonus.c \
 				get_path.c \
-				libft/get_next_line.c \
-				libft/get_next_line_utiles.c \
+				gnled.c \
 
 OBJS = $(SRCS:.c=.o)
 
@@ -39,9 +40,11 @@ bonus: $(OBJS) $(OBJS_BONUS) $(NAME) $(LIBFT)
 
 clean:
 	rm -f $(OBJS) $(OBJS_BONUS)
+	make -C libft clean
 
 fclean: clean
 	rm -f $(NAME)
+	make -C libft fclean
 
 re: fclean all
 

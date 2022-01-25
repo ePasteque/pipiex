@@ -6,7 +6,7 @@
 /*   By: lbattest <lbattest@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/28 14:01:03 by lbattest          #+#    #+#             */
-/*   Updated: 2022/01/24 13:29:53 by lbattest         ###   ########.fr       */
+/*   Updated: 2022/01/25 18:11:19 by lbattest         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,8 @@ void	error(int i)
 		write(2, "pipex: can't create a pipe\n", 27);
 	else if (i == 4)
 		write(2, "pipex: problem when splitting\n", 30);
+	else if (i == 5)
+		write(2, "pipex: error malloc with here_doc\n", 34);
 	exit(1);
 }
 
@@ -34,12 +36,7 @@ static void	loop(t_pipe *pipes, int nbcmd, t_basic basic)
 	pid = fork();
 	if (pid == -1)
 		error(0);
-	if (pid != 0)
-	{
-		if (basic.i == 0 && basic.here_doc != 0)
-			here_doc_process(pipes[basic.i], basic);
-	}
-	else if (pid == 0)
+	if (pid == 0)
 	{
 		if (basic.i == 0 && basic.here_doc == 0)
 			in_process(pipes[basic.i], basic, basic.argv[1]);
@@ -55,6 +52,16 @@ static void	loop(t_pipe *pipes, int nbcmd, t_basic basic)
 	}
 }
 
+int	init(int argc, char **argv, char **envp, t_basic *basic)
+{
+	basic->i = -1;
+	basic->argc = argc;
+	basic->argv = argv;
+	basic->envp = envp;
+	basic->here_doc = 0;
+	return (argc - 3);
+}
+
 int	main(int argc, char **argv, char **envp)
 {
 	int		nbcmd;
@@ -63,24 +70,23 @@ int	main(int argc, char **argv, char **envp)
 
 	if (argc < 5)
 		error(2);
-	nbcmd = argc - 3;
-	basic.i = -1;
-	basic.argc = argc;
-	basic.argv = argv;
-	basic.envp = envp;
-	basic.here_doc = 0;
+	nbcmd = init(argc, argv, envp, &basic);
+	pipes = malloc(sizeof(t_pipe) * (nbcmd - 1));
 	if (ft_strncmp(argv[1], "here_doc", 8) == 0)
 	{
+		if (pipe(&pipes[++basic.i].in) == -1)
+			error(3);
+		call_me(pipes[basic.i], basic);
 		basic.here_doc++;
-		nbcmd--;
 	}
-	pipes = malloc(sizeof(t_pipe) * (nbcmd - 1));
 	while (++basic.i < nbcmd)
 	{
 		if (basic.i < nbcmd - 1 && pipe(&pipes[basic.i].in) == -1)
 			error(3);
 		loop(pipes, nbcmd, basic);
 	}
+	while (wait(NULL) != -1)
+		;
 	free(pipes);
 	return (0);
 }

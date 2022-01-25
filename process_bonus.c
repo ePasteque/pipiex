@@ -6,7 +6,7 @@
 /*   By: lbattest <lbattest@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/13 16:24:15 by lbattest          #+#    #+#             */
-/*   Updated: 2022/01/24 11:53:43 by lbattest         ###   ########.fr       */
+/*   Updated: 2022/01/25 15:32:05 by lbattest         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,42 +30,6 @@ void	exec(t_basic basic)
 		free_all(cmd);
 		error(0);
 	}
-}
-
-void	here_doc_process(t_pipe p, t_basic b)
-{
-	int		p_tmp[2];
-	char	*tmp;
-	char	*final;
-
-	pipe(p_tmp);
-	final = NULL;
-	tmp = NULL;
-	while (1)
-	{
-		tmp = get_next_line(0);
-		if (!tmp || ft_strncmp(b.argv[2], tmp, ft_strlen(b.argv[2])) == 0)
-			break ;
-		final = ft_strjoin_gnl(final, tmp);
-		free(tmp);
-		write(p_tmp[0], final, ft_strlen(final));
-	}
-	if (tmp)
-		free(tmp);
-	b.i++;
-	if (dup2(p_tmp[0], 0) < 0)
-		error(0);
-	if (close(p_tmp[0]))
-		error(0);
-	if (close(p_tmp[1]))
-		error(0);
-	if (dup2(p.out, 1) < 0)
-		error(0);
-	if (close(p.in) < 0)
-		error(0);
-	if (close(p.out) < 0)
-		error(0);
-	exec(b);
 }
 
 void	in_process(t_pipe p, t_basic basic, char *infile)
@@ -109,7 +73,10 @@ void	out_process(t_pipe p, t_basic basic, char *outfile)
 {
 	int	fd;
 
-	fd = open(outfile, O_CREAT | O_TRUNC | O_WRONLY, 0644);
+	if (basic.here_doc == 1)
+		fd = open(outfile, O_CREAT | O_APPEND | O_WRONLY, 0644);
+	else
+		fd = open(outfile, O_CREAT | O_TRUNC | O_WRONLY, 0644);
 	if (fd == -1)
 		error(0);
 	if (dup2(fd, 1) < 0)

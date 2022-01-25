@@ -6,7 +6,7 @@
 /*   By: lbattest <lbattest@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/13 18:53:18 by lbattest          #+#    #+#             */
-/*   Updated: 2022/01/13 18:53:40 by lbattest         ###   ########.fr       */
+/*   Updated: 2022/01/25 13:46:46 by lbattest         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ char	*get_path(char **envp, char *cmd)
 	tmp = ft_split(path, ':');
 	while (tmp[i])
 	{
-		exe = ft_strjoin(tmp[i], cmd);
+		exe = ft_strjoin_mod(tmp[i], cmd);
 		if (access(exe, X_OK | F_OK) == 0)
 		{
 			free_all(tmp);
