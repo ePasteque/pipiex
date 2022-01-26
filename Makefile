@@ -35,15 +35,17 @@ lib:
 $(NAME): $(OBJS) $(LIBFT)
 	$(CC) $(OBJS) $(LIBFT) -o $(NAME)
 
-bonus: $(OBJS) $(OBJS_BONUS) $(NAME) $(LIBFT)
-	$(CC) $(OBJS_BONUS) $(LIBFT) -o $(NAME) 
+bonus: $(NAME_BONUS)
 
+$(NAME_BONUS): $(OBJS_BONUS) $(LIBFT) $(HEADER) Makefile
+	$(CC) $(OBJS_BONUS) $(LIBFT) -o $(NAME_BONUS)
+ 
 clean:
 	rm -f $(OBJS) $(OBJS_BONUS)
 	make -C libft clean
 
 fclean: clean
-	rm -f $(NAME)
+	rm -f $(NAME) $(NAME_BONUS)
 	make -C libft fclean
 
 re: fclean all
